@@ -13,11 +13,20 @@ export default {
       {
         title: '形状',
         type: 'style',
-        options: ['background'],
+        options: ['background', 'padding'],
         initValue: {
           backgroundColor: '#000'
         },
         target: '[data-item-type="shape"]'
+      },
+      {
+        title: '形状',
+        type: 'style',
+        options: ['padding'],
+        initValue: {
+          backgroundColor: '#000'
+        },
+        target: '[data-item-type="wrapper"]'
       },
       {
         title: '旋转',
@@ -33,32 +42,6 @@ export default {
           }
         }
       },
-      {
-        title: '内容大小',
-        type: 'inputnumber',
-        description: '百分比大小',
-        options: [{ min: 0, max: 100 }],
-        value: {
-          get({ data }: EditorResult<ShapeProps>) {
-            return [data.size || 100];
-          },
-          set({ data }: EditorResult<ShapeProps>, value: number[]) {
-            data.size = value[0];
-          }
-        }
-      }
-      // {
-      //   title: '图片是否跟随旋转',
-      //   type: 'switch',
-      //   value: {
-      //     get({ data }: EditorResult<ShapeProps>) {
-      //       return data.isImgRotate;
-      //     },
-      //     set({ data }: EditorResult<ShapeProps>, value: boolean) {
-      //       data.isImgRotate = value;
-      //     }
-      //   }
-      // }
     ],
     items: [
       {
@@ -79,18 +62,6 @@ export default {
           }
         }
       },
-      {
-        title: '图片地址',
-        type: 'ImageSelector',
-        value: {
-          get({ data }: EditorResult<ShapeProps>) {
-            return data.image;
-          },
-          set({ data }: EditorResult<ShapeProps>, value: string) {
-            data.image = value;
-          }
-        }
-      }
     ]
   }
 };

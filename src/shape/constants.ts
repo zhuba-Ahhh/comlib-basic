@@ -14,9 +14,6 @@ export interface ShapeProps {
   type: ShapeType;
   style: CSSProperties;
   rotate: number;
-  isImgRotate: boolean;
-  size: number;
-  image?: string;
 }
 
 export type ShapeType = "circle" | "square" | "triangle" | "ellipse";

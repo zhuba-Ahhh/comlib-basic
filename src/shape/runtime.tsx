@@ -12,27 +12,17 @@ interface RuntimeShapeProps {
 }
 
 export default function ({ data }: RuntimeShapeProps) {
-  const { type, image, rotate, size, isImgRotate } = data;
+  const { type, rotate, } = data;
 
   const shapeStyles: React.CSSProperties = {
-    width: `${size}%`,
-    aspectRatio: 1 / 1,
+    ...wrapperStyles,
     clipPath: clipPaths[type],
     transform: `rotate(${rotate}deg)`
   };
 
-  const imgStyles: React.CSSProperties = {
-    top: 0,
-    left: 0,
-    objectFit: 'cover',
-    transform: `rotate(${isImgRotate ? 0 : -rotate}deg)`
-  };
-
   return (
-    <div style={wrapperStyles} className={css.wrapper}>
-      <div style={shapeStyles} className={css.shape} data-item-type="shape">
-        {image && <img src={image} alt="" style={imgStyles} />}
-      </div>
+    <div style={wrapperStyles} className={css.wrapper} data-item-type="wrapper">
+      <div style={shapeStyles} className={css.shape} data-item-type="shape" />
     </div>
   );
 }
