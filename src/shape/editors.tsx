@@ -20,15 +20,6 @@ export default {
         target: '[data-item-type="shape"]'
       },
       {
-        title: '形状',
-        type: 'style',
-        options: ['padding'],
-        initValue: {
-          backgroundColor: '#000'
-        },
-        target: '[data-item-type="wrapper"]'
-      },
-      {
         title: '旋转',
         type: 'inputnumber',
         description: '顺时针旋转',
