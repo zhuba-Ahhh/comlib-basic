@@ -2,6 +2,7 @@
   "title": "对象合并",
   "namespace": "mybricks.normal-pc.object-merge-v2",
   "version": "1.0.0",
+  "visibility": false,
   "rtType": "js",
   "description": "对象合并",
   "author": "Mybricks",
