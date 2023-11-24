@@ -1,13 +1,18 @@
 import { OutputIds } from "./constants";
+import { isSameInputType, objMerge } from "./utils";
 
 export default function ({ env, inputs, outputs }) {
   const { runtime } = env;
-  let list: any[] = [];
 
   if (runtime) {
     inputs["input"]((val: Record<string, Array<any>>) => {
-      list = Object.values(val);
-      outputs[OutputIds.Output](list);
+      let list: any[] = Object.values(val);
+      const type = isSameInputType(list);
+      if (!!type && type === "Object") {
+        outputs[OutputIds.Output](objMerge(list));
+      } else {
+        outputs[OutputIds.Output](list);
+      }
     });
   }
 }
