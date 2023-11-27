@@ -42,5 +42,7 @@
   "closable": true,
   "maskClosable": true,
   "isTitleCustom": false,
-  "keyboard": true
+  "keyboard": true,
+  "showMask": true,
+  "style": {}
 }

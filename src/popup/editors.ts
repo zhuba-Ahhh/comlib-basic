@@ -1,4 +1,4 @@
-import { isEmptyString, uuid } from './utils';
+import { isEmptyString, uuid, unitConversion } from './utils';
 import visibleOpt from './utils'
 import { DefaultEvent, AlignEnum, Data, DialogButtonProps, Location, InputIds } from './constants';
 
@@ -152,6 +152,94 @@ export default {
         }
       },
       {
+        title: '显示蒙层',
+        type: 'switch',
+        description: '是否显示蒙层(遮罩)',
+        value: {
+          get({ data }) {
+            return !!data.showMask;
+          },
+          set({ data }, value: boolean) {
+            data.showMask = value;
+          }
+        }
+      },
+      {
+        title: '位置',
+        items: [
+          {
+            title: '水平居中',
+            type: 'switch',
+            description: '在水平方向上是否居中',
+            value: {
+              get({ data }) {
+                if (typeof data.style.margin === 'undefined') {
+                  data.style = {
+                    ...data.style,
+                    margin: '0 auto',
+                  }
+                }
+                return !!data.style.margin;
+              },
+              set({ data }, value: boolean) {
+                data.style = {
+                  ...data.style,
+                  margin: value ? '0 auto' : 0,
+                }
+              }
+            }
+          },
+          {
+            title: 'Top',
+            type: 'text',
+            description: '相对于上边距位移',
+            value: {
+              get({ data }: EditorResult<Data>) {
+                return data?.style?.top || '0px';
+              },
+              set({ data }: EditorResult<Data>, val: string) {
+                data.style = {
+                  ...data.style,
+                  top: unitConversion(val)
+                }
+              }
+            }
+          },
+          {
+            title: 'Right',
+            type: 'text',
+            description: '相对当前位置向右位移,权重小于左边',
+            value: {
+              get({ data }: EditorResult<Data>) {
+                return data?.style?.right || '0px';
+              },
+              set({ data }: EditorResult<Data>, val: string) {
+                data.style = {
+                  ...data.style,
+                  right: unitConversion(val)
+                }
+              }
+            }
+          },
+          {
+            title: 'Left',
+            type: 'text',
+            description: '相对当前位置向左位移,权重大于右边',
+            value: {
+              get({ data }: EditorResult<Data>) {
+                return data?.style?.left || '0px';
+              },
+              set({ data }: EditorResult<Data>, val: string) {
+                data.style = {
+                  ...data.style,
+                  left: unitConversion(val)
+                }
+              }
+            }
+          },
+        ]
+      },
+      {
         title: '顶部区域',
         options: ['background', 'border', 'padding', 'opacity'],
         global: true,
@@ -235,6 +323,9 @@ export default {
         {
           title: '点击蒙层关闭',
           type: 'switch',
+          ifVisible(data: Data) {
+            return !data.showMask;
+          },
           value: {
             get({ data }) {
               return !!data.maskClosable;

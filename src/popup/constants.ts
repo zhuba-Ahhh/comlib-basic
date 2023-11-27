@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 /**
  * Data
  * @param title      标题
@@ -11,6 +12,7 @@
  * @param footerBtns 操作项
  * @param maskClosable 点击蒙层关闭
  * @param keyboard 键盘 esc 关闭
+ * @param showMask 是否隐藏遮罩
  */
 
 export enum Location {
@@ -52,6 +54,8 @@ export interface Data {
   maskClosable?: boolean;
   isTitleCustom?: boolean;
   keyboard?: boolean;
+  showMask?: boolean;
+  style: CSSProperties;
 }
 
 export const DefaultEvent = ['ok', 'cancel'];

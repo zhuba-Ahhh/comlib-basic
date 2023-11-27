@@ -9,6 +9,8 @@ import css from './runtime.less'
 export default function ({ id, env, _env, data, slots, outputs, inputs, logger }) {
   const ref = useRef<any>();
   const isMobile = env?.canvas?.type === 'mobile';
+  
+  const { showMask, style } = data;
 
   useEffect(() => {
     inputs['title']((val: string) => {
@@ -124,15 +126,17 @@ export default function ({ id, env, _env, data, slots, outputs, inputs, logger }
   const debugPopup = (
     <ConfigProvider locale={env.vars?.locale}>
       <Modal
-        visible={true}
+        open={true}
+        // visible={true}
         title={data.hideTitle ? undefined : (data.isTitleCustom ? slots['title']?.render() : env.i18n(data.title))}
         width={isMobile ? '100%' : data.width}
         footer={data.useFooter ? renderFooter() : null}
         onCancel={handleClose}
         centered={data.centered}
         bodyStyle={data.bodyStyle}
-
-        maskClosable={data.maskClosable}
+        mask={showMask}
+        style={style}
+        maskClosable={showMask && data.maskClosable}
         keyboard={data.keyboard}
         wrapClassName={css.container}
         closable={data.closable}
@@ -146,15 +150,17 @@ export default function ({ id, env, _env, data, slots, outputs, inputs, logger }
   const publishPopup = (
     <ConfigProvider locale={env.vars?.locale}>
       <Modal
-        visible={true}
+        open={true}
+        // visible={true}
         title={data.hideTitle ? undefined : (data.isTitleCustom ? slots['title']?.render() : env.i18n(data.title))}
         width={isMobile ? '100%' : data.width}
         footer={data.useFooter ? renderFooter() : null}
         onCancel={handleClose}
         centered={data.centered}
         bodyStyle={data.bodyStyle}
-
-        maskClosable={data.maskClosable}
+        mask={showMask}
+        style={style}
+        maskClosable={showMask && data.maskClosable}
         keyboard={data.keyboard}
         wrapClassName={`${css.container} ${id}`}
         closable={data.closable}
@@ -168,7 +174,8 @@ export default function ({ id, env, _env, data, slots, outputs, inputs, logger }
   const editPopup = (
     <ConfigProvider locale={env.vars?.locale}>
       <Modal
-        visible={true}
+        open={true}
+        // visible={true}
         title={data.hideTitle ? undefined : (data.isTitleCustom ? slots['title']?.render() : env.i18n(data.title))}
         width={isMobile ? '100%' : data.width}
         footer={data.useFooter ? renderFooter() : null}
@@ -176,7 +183,7 @@ export default function ({ id, env, _env, data, slots, outputs, inputs, logger }
         mask={false}
         transitionName=""
         bodyStyle={data.bodyStyle}
-
+        style={style}
         wrapClassName={css.container}
         closable={data.closable}
         getContainer={false}
@@ -189,7 +196,7 @@ export default function ({ id, env, _env, data, slots, outputs, inputs, logger }
   const getContent = () => {
     //调试态
     if (env.runtime && env.runtime.debug) {
-      return (
+      return showMask ? (
         <div
           className={css.debugMask}
         >
@@ -197,14 +204,14 @@ export default function ({ id, env, _env, data, slots, outputs, inputs, logger }
             {debugPopup}
           </div>
         </div>
-      )
+      ) : (<>{debugPopup}</>)
       //编辑态
     } else if (env.edit) {
-      return <div
+      return showMask ? <div
         className={css.antdMask}
       >
         {editPopup}
-      </div>
+      </div> : <>{editPopup}</>
     }
     //预览态 (发布态)
     return publishPopup
